@@ -7,11 +7,11 @@
 #include<stdio.h>
 #include<stdio.h>
 #include "server.h"
-#include "process.h"
 #include "getstart.h"
 #include<set>
 #include<string>
 #include"system_path.h"
+#include "getprocess.h"
 
 using namespace std;
 
@@ -40,6 +40,8 @@ void main()
 			get_system_start_path(path);
 			break;
 		}
+		default:
+			return;
 		}
 	}
 

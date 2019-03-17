@@ -1,6 +1,5 @@
 #pragma once
 #include "stdafx.h"
-
 #include<windows.h>
 #include<stdio.h>
 #include<string.h>
@@ -10,7 +9,7 @@
 #define MAX_KEY_LENGTH 255
 #define MAX_VALUE_NAME 16383
 
-/*BOOL IsWow64()  //64?
+BOOL IsWow64()  //64?
 {
 	typedef BOOL(WINAPI* LPFN_ISWOW64PROCESS)(HANDLE, PBOOL);
 	LPFN_ISWOW64PROCESS fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(GetModuleHandle(_T("kernel32")), "IsWow64Process");
@@ -23,7 +22,7 @@
 
 	return bIsWow64;
 
-}*/
+}
 
 void QueryKey(HKEY hKey, set<string> &s)
 {
@@ -62,32 +61,7 @@ void QueryKey(HKEY hKey, set<string> &s)
 		&cchMaxValue,            // 指定一个变量，用于装载这个项之子项的最长一个值名的长度
 		&cbMaxValueData,         // 指定一个变量，用于装载容下这个项最长一个值数据所需的缓冲区长度
 		&cbSecurityDescriptor,   // 装载值安全描述符长度的一个变量 
-		&ftLastWriteTime);       // 指定一个结构，用于容纳该项的上一次修改时间 
-
-								 //枚举子项
-
-								 /*if (cSubKeys)
-								 {
-								 //printf( "\nNumber of subkeys: %d\n", cSubKeys);
-
-								 for (i=0; i<cSubKeys; i++)
-								 {
-								 cbName = MAX_KEY_LENGTH;
-								 retCode = RegEnumKeyEx(hKey, i,
-								 achKey,
-								 &cbName,
-								 NULL,
-								 NULL,
-								 NULL,
-								 &ftLastWriteTime);
-								 if (retCode == ERROR_SUCCESS)
-								 {
-								 _tprintf(TEXT("(%d) %s\n"), i+1, achKey);
-								 }
-								 }
-								 } */
-
-								 // 枚举键值. 
+		&ftLastWriteTime);       // 指定一个结构，用于容纳该项的上一次修改时间
 
 	if (cValues)
 	{
@@ -127,28 +101,43 @@ void getstart(set<string> &s)
 
 		HKEY hTestKey;
 		HKEY aTestKey = NULL;
-		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-			TEXT("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"),
-			0,
-			KEY_READ | KEY_WOW64_64KEY,
-			&hTestKey) == ERROR_SUCCESS
-			)
+		HKEY sTestKey =NULL;
+		
+			if (RegOpenKeyEx(HKEY_CURRENT_USER,
+				TEXT("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"),
+				0,
+				KEY_ALL_ACCESS,
+				&hTestKey) == ERROR_SUCCESS
+				)
 
-		{
-			QueryKey(hTestKey,s);
-		}
-		else
-			printf("64error \n");
-		RegCloseKey(hTestKey);
-
-		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-			TEXT("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"),
-			0,
-			KEY_READ,
-			&aTestKey) == ERROR_SUCCESS
-			)
-		{
-			QueryKey(aTestKey,s);
-		}
-		RegCloseKey(aTestKey);
+			{
+				QueryKey(hTestKey, s);
+			}
+			RegCloseKey(hTestKey);
+		
+			if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+				TEXT("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"),
+				0,
+				KEY_ALL_ACCESS,
+				&aTestKey) == ERROR_SUCCESS
+				)
+			{
+				QueryKey(aTestKey, s);
+			}
+			RegCloseKey(aTestKey);
+			if (IsWow64())
+			{
+				if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+					TEXT("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"),
+					0,
+					KEY_ALL_ACCESS | KEY_WOW64_64KEY,
+					&sTestKey) == ERROR_SUCCESS
+					)
+				{
+					QueryKey(sTestKey, s);
+				}
+				RegCloseKey(sTestKey);
+			}
+			
+		
 }

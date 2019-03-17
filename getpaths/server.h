@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <iostream>
 #include<stdio.h>
-#include "StdAfx.h"
 #include<set>
 #include<string>
 using namespace std;
@@ -11,8 +10,6 @@ using namespace std;
 int serverecho(set<string> &s)
 {
 	int menu = 1;
-	while (1)
-	{
 		if (menu == 1)
 		{
 			SC_HANDLE SCMan = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS); //打开系统服务控制器
@@ -44,7 +41,7 @@ int serverecho(set<string> &s)
 				return 0;
 			}
 			printf("当前服务数量为:%d\n", ServicesReturned);
-			for (int i = 0; i < ServicesReturned; i++)
+			for (int i = 0; i<int(ServicesReturned); i++)
 			{
 				//printf("服务名: %s ", service_status[i].lpDisplayName);
 				LPQUERY_SERVICE_CONFIG lpServiceConfig = NULL; //服务详细信息结构
@@ -65,5 +62,4 @@ int serverecho(set<string> &s)
 			CloseServiceHandle(SCMan);//关闭服务管理器的句柄
 		}
 		return 0;
-	}
 }
