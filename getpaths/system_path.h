@@ -17,9 +17,10 @@ void system_deleteparm(std::set<string> &path)
 */
 int system_showpath(std::set<string> &path)
 {
+	int ss = 0;
 	std::set<string>::iterator it;
 	for (it = path.begin(); it != path.end(); it++)
-		printf("%s\n", it->c_str());
+		printf("%d  %s\n", ss++,it->c_str());
 	return 0;
 }
 int get_system_start_path(std::set<string> &path) {

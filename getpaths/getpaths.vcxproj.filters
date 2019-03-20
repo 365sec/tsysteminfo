@@ -36,12 +36,18 @@
     <ClInclude Include="system_path.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="cy_stringconvert.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="getpaths.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cy_stringconvert.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -89,7 +89,17 @@ void QueryKey(HKEY hKey, set<string> &s)
 
 			if (retCode == ERROR_SUCCESS)
 			{
-				s.insert(data);
+				int nArgs = 0;
+				LPWSTR *szArglist = NULL;
+				szArglist = CommandLineToArgvW(cy::convert::StringConvert::AnsiToWide(data).c_str(), &nArgs);
+
+				if (NULL != szArglist) {
+
+					s.insert(cy::convert::StringConvert::WideToAnsi(szArglist[0]).c_str());
+					//	printf("%d %s\n",ssss++, cy::convert::StringConvert::WideToAnsi(szArglist[0]).c_str());
+					LocalFree(szArglist);
+				}
+				//s.insert(data);
 			}
 		}
 	}

@@ -5,6 +5,8 @@
 #include<stdio.h>
 #include<set>
 #include<string>
+#include <atlconv.h>
+#include "cy_stringconvert.h"
 using namespace std;
 
 int serverecho(set<string> &s)
@@ -41,6 +43,7 @@ int serverecho(set<string> &s)
 				return 0;
 			}
 			printf("当前服务数量为:%d\n", ServicesReturned);
+			int ssss = 0;
 			for (int i = 0; i<int(ServicesReturned); i++)
 			{
 				//printf("服务名: %s ", service_status[i].lpDisplayName);
@@ -54,9 +57,16 @@ int serverecho(set<string> &s)
 					printf("QueryServiceConfig Error\n");
 					return 0;
 				}
-				//printf("路径: %s ", lpServiceConfig->lpBinaryPathName);//服务的路径
-				s.insert(lpServiceConfig->lpBinaryPathName);
-//				printf("\n");
+				int nArgs = 0;
+				LPWSTR *szArglist = NULL;
+				szArglist = CommandLineToArgvW(cy::convert::StringConvert::AnsiToWide(lpServiceConfig->lpBinaryPathName).c_str(), &nArgs);
+				
+				if (NULL != szArglist) {
+
+					s.insert(cy::convert::StringConvert::WideToAnsi(szArglist[0]).c_str());
+				//	printf("%d %s\n",ssss++, cy::convert::StringConvert::WideToAnsi(szArglist[0]).c_str());
+					LocalFree(szArglist);
+				}
 				CloseServiceHandle(service_curren);//关闭当前服务的句柄
 			}
 			CloseServiceHandle(SCMan);//关闭服务管理器的句柄
