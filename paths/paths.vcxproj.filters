@@ -24,19 +24,10 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="server.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="process.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="getstart.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="system_path.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="cy_stringconvert.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="cy_system.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,10 +35,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="getpaths.cpp">
+    <ClCompile Include="paths.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="cy_stringconvert.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cy_system.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
