@@ -11,7 +11,8 @@ int main()
 	set<string> paths;
 	//System::get_system_process_path(paths);
 	//System::get_system_service_path(paths);
-	System::get_system_start_path(paths);
+	//System::get_system_start_path(paths);
+	System::get_software_path_from_regedit(paths);
 	set<string>::iterator it;
 	for (it = paths.begin(); it != paths.end(); it++)
 	{

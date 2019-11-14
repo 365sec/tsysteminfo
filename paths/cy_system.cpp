@@ -11,6 +11,9 @@
 #pragma comment (lib,"Psapi.lib")
 #include <atlconv.h>
 #include "cy_stringconvert.h"
+#include <iostream>
+#include <tchar.h>
+#include<string>
 using namespace cy::system;
 using namespace cy::convert;
 using namespace std;
@@ -316,3 +319,93 @@ BOOL  System::get_system_start_path(set<string> &s)
 		}
 	return 0;
 }
+
+
+
+
+LRESULT GetValue(HKEY hKey, LPCTSTR name, LPTSTR value, LPLONG size)
+{
+	return ::RegQueryValueEx(hKey, name, NULL, NULL, (LPBYTE)value, (LPDWORD)size);
+}
+//
+
+std::string TCHAR2STRING(TCHAR* str){
+	std::string strstr;
+	try{
+	int iLen = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0, NULL, NULL);
+	char* chRtn = new char[iLen * sizeof(char)];
+	WideCharToMultiByte(CP_ACP, 0, str, -1, chRtn, iLen, NULL, NULL);
+		strstr = chRtn;
+	}
+	catch (std::exception e){
+	}
+		return strstr;
+}
+
+
+
+void DumpSoftware(LPCTSTR szKey , HKEY hParent, set<string> &s)
+{
+	LRESULT lr;
+	HKEY hKey;
+	LONG size;
+	TCHAR buffer[MAX_PATH];
+	lr = RegOpenKey(hParent, szKey, &hKey);
+ 
+	//不能打开注册表
+	if(lr != ERROR_SUCCESS)
+	{
+		return;
+	} 
+ 
+ 
+	size = sizeof(buffer);
+	lr = GetValue(hKey, _T("InstallLocation"), &buffer[0], &size);
+	if(ERROR_SUCCESS == lr && size > 2)
+	{
+		string turnbuffer;
+		turnbuffer=TCHAR2STRING(buffer);
+		s.insert(turnbuffer);
+	}
+
+
+	RegCloseKey(hKey);
+}
+ 
+#define UNINSTALL_SOFT _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall")
+//
+BOOL System::get_software_path_from_regedit(set<string> &s)
+{
+	std::wcout.imbue(std::locale("chs"));
+	unsigned long index;
+	TCHAR buffer[MAX_PATH];
+	HKEY hKey;
+	HRESULT hr = ::RegOpenKeyEx(HKEY_LOCAL_MACHINE, UNINSTALL_SOFT, 0, /*KEY_ALL_ACCESS*/KEY_READ, &hKey);
+	if(hr != ERROR_SUCCESS)
+	{
+		return FALSE;
+	}
+ 
+	for(index =0; ;index++)
+	{
+		hr = RegEnumKey(hKey, index, &buffer[0], sizeof(buffer));
+		switch(hr)
+		{
+		case ERROR_SUCCESS:
+			DumpSoftware(buffer, hKey, s);
+			break;
+		case ERROR_NO_MORE_ITEMS:
+			RegCloseKey(hKey);
+			return FALSE;
+		default:
+			RegCloseKey(hKey);
+			return FALSE;
+		}
+	}
+	RegCloseKey(hKey);
+	getchar();
+	return TRUE;
+}
+
+
+

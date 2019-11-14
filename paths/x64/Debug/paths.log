@@ -1,0 +1,25 @@
+﻿生成启动时间为 2019/11/14 15:59:17。
+     1>项目“D:\git_dir\tsysteminfo\paths\paths.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\vs2012\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"x64\Debug\paths.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc110.pdb" /Gd /TP /errorReport:prompt cy_system.cpp
+         cy_system.cpp
+     1>cy_system.cpp(47): error C2664: “_wcsnicmp”: 不能将参数 1 从“char *”转换为“const wchar_t *”
+                 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
+     1>cy_system.cpp(142): warning C4800: “BOOL”: 将值强制为布尔值“true”或“false”(性能警告)
+     1>cy_system.cpp(163): error C2665: “cy::convert::StringConvert::AnsiToWide”: 2 个重载中没有一个可以转换所有参数类型
+                 d:\git_dir\tsysteminfo\paths\cy_stringconvert.h(50): 可能是“std::wstring cy::convert::StringConvert::AnsiToWide(const std::string &)”
+                 尝试匹配参数列表“(LPWSTR)”时
+     1>cy_system.cpp(163): error C2228: “.c_str”的左边必须有类/结构/联合
+     1>cy_system.cpp(197): error C2440: “初始化”: 无法从“const wchar_t [1]”转换为“char [260]”
+                 没有使该转换得以执行的上下文
+     1>cy_system.cpp(230): error C2664: “RegQueryInfoKeyW”: 不能将参数 2 从“char [260]”转换为“LPWSTR”
+                 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
+     1>cy_system.cpp(249): error C2664: “RegEnumValueW”: 不能将参数 3 从“char *”转换为“LPWSTR”
+                 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
+     1>cy_system.cpp(254): error C2664: “RegQueryValueExW”: 不能将参数 2 从“char *”转换为“LPCWSTR”
+                 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
+     1>已完成生成项目“D:\git_dir\tsysteminfo\paths\paths.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:01.31

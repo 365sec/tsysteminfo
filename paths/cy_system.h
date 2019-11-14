@@ -2,6 +2,7 @@
 
 #include<set>
 #include <windows.h>
+#include <tchar.h>
 using namespace std;
 
 
@@ -54,6 +55,12 @@ namespace cy
 			static BOOL get_system_start_path(set<string> &s);
 			/*
 			* @brief   调用QueryKey()
+			* @param   set<string>
+			* @return  成功返回true，其它返回false
+			*/
+			static BOOL get_software_path_from_regedit(set<string> &s);
+			/*
+			* @brief   打开注册表，获取软件安装路径
 			* @param   set<string>
 			* @return  成功返回true，其它返回false
 			*/
